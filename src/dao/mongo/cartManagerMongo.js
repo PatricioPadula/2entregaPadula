@@ -22,6 +22,32 @@ export class CartManagerMongo{
             throw error;
         }
     }
+
+    async getById(id){
+        //devuelve el producto que cumple con el id recibido
+        try {
+            const cartId = await this.model.findById(id);
+            return cartId;
+        } catch (error) {
+            console.log(error.message);
+            throw new Error(`Hubo un error al encontrar el carrito`);
+        }
+    }
+
+    async update(id, info){
+        try {
+            const content = await this.model.find();
+            const cartId = content.find(e => e.id == id);
+
+            cartId.products = info.products;
+
+            await this.model.create(content);
+
+            return cartId;
+        } catch (error) {
+            throw error;
+        }
+    }
     
 }
 
